@@ -1,0 +1,23 @@
+.localClass {
+  color: green;
+
+	> * {
+		background-color: yellow;
+		padding: 100px;
+	}
+}
+
+.test {
+	background-color: red;
+}
+
+:local(.subClass) {
+  color: red;
+	> * {
+		background-color: yellow;
+	}
+}
+
+:global(.globalClass) {
+  color: blue;
+}
