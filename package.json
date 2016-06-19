@@ -30,7 +30,9 @@
     "style-loader": "^0.13.1",
     "css-loader": "^0.23.1",
     "postcss-modules-local-by-default": "^1.0.1",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "sc5-styleguide": "1.0.0",
+    "gulp-replace": ""
   },
   "dependencies": {
     "jquery": "^2.1.4",

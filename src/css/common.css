@@ -1,0 +1,18 @@
+/*
+Test
+
+Markup:
+<div class="common"><span>Section markup</span></</div>
+
+Styleguide 2
+*/
+:local(.common) {
+  color: red;
+	> * {
+		background-color: pink;
+	}
+}
+
+:global(.commonGlobal) {
+  color: blue;
+}

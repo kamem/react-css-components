@@ -28,21 +28,37 @@ var settings = require('./gulpfile_settings');
 var isSscs = settings.watch.css.files.indexOf('scss') >= 0;
 
 var requireDir = require('require-dir');
+var styleguide = require('sc5-styleguide');
 
-gulp.task('postcss', function () {
-	if(isSscs) return;
-	gulp.src([settings.watch.css.files])
-	.pipe(plumber())
-	.pipe(postcss([
-		precss
-	]))
-	.pipe(autoprefixer({
-		browsers: ["> 0%"],
-		cascade: false
-	}))
-	.pipe(gulp.dest(settings.dest.css.dir));
+var replace = require('gulp-replace');
+
+var outputPath = 'output';
+gulp.task('styleguide:generate', function() {
+	return gulp.src(settings.watch.css.files)
+			.pipe(styleguide.generate({
+				title: 'My Styleguide',
+				server: true,
+				rootPath: outputPath,
+				disableEncapsulation: true,
+				overviewPath: 'styleguide/overview.md',
+				parsers: {
+					css: 'postcss'
+				},
+			}))
+			.pipe(gulp.dest(outputPath));
 });
 
+
+gulp.task('styleguide:applystyles', function() {
+	return gulp.src(settings.watch.css.files)
+			.pipe(postcss([
+				precss,
+				autoprefixer
+			]))
+			.pipe(replace(/(:local|:global)\((.*)\)/g, '$2'))
+			.pipe(styleguide.applyStyles())
+			.pipe(gulp.dest(outputPath));
+});
 
 gulp.task('webpack', function(){
 	gulp.src(settings.watch.es6.files)
@@ -106,8 +122,8 @@ gulp.task('usemin', function() {
 });
 
 
-gulp.task('watch', ['webpack', 'postcss',  'jsCopy', 'imgCopy', 'fontCopy', 'usemin'], function(){
-	gulp.watch(settings.watch.css.files, ['webpack']);
+gulp.task('watch', ['webpack', 'styleguide', 'jsCopy', 'imgCopy', 'fontCopy', 'usemin'], function(){
+	gulp.watch(settings.watch.css.files, ['webpack', 'styleguide']);
 	gulp.watch(settings.watch.es6.files, ['webpack']);
 	gulp.watch(settings.watch.img.files, ['imgCopy']);
 	gulp.watch(settings.watch.font.files, ['fontCopy']);
@@ -127,5 +143,6 @@ gulp.task('livereload', function() {
 	.pipe(connect.reload());
 });
 
+gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 gulp.task('default', ['watch', 'webserver', 'livereload']);
-gulp.task('build', ['webpack', 'postcss', 'jsCopy', 'imgCopy', 'fontCopy', 'usemin']);
+gulp.task('build', ['webpack', 'jsCopy', 'imgCopy', 'fontCopy', 'usemin']);

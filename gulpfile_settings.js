@@ -27,7 +27,7 @@ settings.watch.html.files = [
 	settings.watch.html.dir + '**/*.html',
 	'!' + settings.watch.css.dir + '**/*.html',
 	'!' + settings.watch.font.dir + '**/*.html'];
-settings.watch.css.files = settings.watch.css.dir + '**/*.scss';
+settings.watch.css.files = settings.watch.css.dir + '**/*.css';
 settings.watch.js.files =  settings.watch.js.dir + '**/*.js';
 settings.watch.es6.files =  settings.watch.es6.dir + '**/*.js';
 settings.watch.img.files =  settings.watch.img.dir + '**/*.png';

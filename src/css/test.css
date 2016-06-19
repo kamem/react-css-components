@@ -1,3 +1,12 @@
+/*
+First section
+
+Markup:
+<div class="subClass"><span>Section markup</span></</div>
+
+Styleguide 1.0
+*/
+
 .localClass {
   color: green;
 
@@ -20,4 +29,21 @@
 
 :global(.globalClass) {
   color: blue;
+}
+
+/*
+Seccond section
+
+Markup:
+<div class="subClass2"><span>Section markup</span></</div>
+
+Styleguide 1.1
+*/
+
+
+:local(.subClass2) {
+  color: red;
+	> * {
+		background-color: red;
+	}
 }
